@@ -1,0 +1,12 @@
+[project]
+name = "photomator-flag-sync"
+version = "0.1.0"
+description = "Basic PySide6 utility to import flagged Photomator-sidecar images into Apple Photos"
+requires-python = ">=3.11"
+dependencies = [
+    "Pillow",
+    "PySide6",
+    "pyobjc-core",
+    "pyobjc-framework-Cocoa",
+    "pyobjc-framework-Photos",
+]
