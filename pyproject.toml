@@ -27,6 +27,8 @@ packages = ["core"]
 [tool.ruff]
 line-length = 120
 target-version = "py311"
+per-file-ignores = { "app.py" = ["E402"], "core/photos_bridge.py" = ["F821", "B023"], "tests/*.py" = ["E402"] }
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B"]
+ignore = ["E501"]

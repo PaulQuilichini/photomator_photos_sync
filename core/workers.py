@@ -25,7 +25,9 @@ class ScanWorker(QObject):
     progress = Signal(int, int, str)
     finished = Signal(list, str)
 
-    def __init__(self, folder: str, recursive: bool, photos_bridge: PhotosLibraryBridge, exiftool_path: str | None) -> None:
+    def __init__(
+        self, folder: str, recursive: bool, photos_bridge: PhotosLibraryBridge, exiftool_path: str | None
+    ) -> None:
         super().__init__()
         self.folder = Path(folder).expanduser()
         self.recursive = recursive
@@ -36,7 +38,9 @@ class ScanWorker(QObject):
         try:
             flagged_candidates: list[Candidate] = []
             embedded_paths = [
-                path for path in iter_photo_files(self.folder, self.recursive) if path.suffix.lower() in EMBEDDED_FLAG_EXTENSIONS
+                path
+                for path in iter_photo_files(self.folder, self.recursive)
+                if path.suffix.lower() in EMBEDDED_FLAG_EXTENSIONS
             ]
             flagged_candidates.extend(
                 extract_embedded_flagged(

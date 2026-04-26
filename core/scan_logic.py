@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import json
-from pathlib import Path
 import subprocess
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Callable, Iterable
 
 from PIL import Image, UnidentifiedImageError
 
 from core.flag_parsing import parse_pick_value, parse_xmp_flag
 from core.models import Candidate
-
 
 SUPPORTED_EXTENSIONS = {
     ".jpg",
@@ -147,7 +146,11 @@ def extract_embedded_flagged(
     for offset in range(0, total, chunk_size):
         chunk = paths[offset : offset + chunk_size]
         if progress:
-            progress(min(offset + len(chunk), total), total, f"Reading embedded metadata ({offset + 1}-{offset + len(chunk)})...")
+            progress(
+                min(offset + len(chunk), total),
+                total,
+                f"Reading embedded metadata ({offset + 1}-{offset + len(chunk)})...",
+            )
 
         command = [
             exiftool_path,

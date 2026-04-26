@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 APP_NAME = "PhotomatorFlagSync"
 APP_SUPPORT_DIR_NAME = APP_NAME
 

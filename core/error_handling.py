@@ -1,9 +1,8 @@
 from __future__ import annotations
 
+import traceback
 from datetime import datetime
 from pathlib import Path
-import traceback
-
 
 ERROR_REPORT_PATH = Path.home() / "Library" / "Application Support" / "PhotomatorFlagSync" / "error_reports.log"
 

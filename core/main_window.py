@@ -5,6 +5,36 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
+
+from PySide6.QtCore import Qt, QThread, QUrl
+from PySide6.QtGui import QAction, QColor, QDesktopServices, QFont, QIcon, QPainter, QPixmap
+from PySide6.QtSvgWidgets import QSvgWidget
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QDialog,
+    QDialogButtonBox,
+    QFileDialog,
+    QFrame,
+    QGridLayout,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QPlainTextEdit,
+    QProgressBar,
+    QPushButton,
+    QSizePolicy,
+    QSplitter,
+    QStackedWidget,
+    QTableWidget,
+    QTableWidgetItem,
+    QToolButton,
+    QVBoxLayout,
+    QWidget,
+)
+
 from core.app_state import format_history_entry, load_persisted_app_data, save_persisted_app_data
 from core.config import (
     ACCESSIBILITY_SETTINGS_URL,
@@ -22,35 +52,6 @@ from core.models import Candidate, DuplicateGroup
 from core.photos_bridge import PhotosLibraryBridge
 from core.styles import app_palette, build_stylesheet
 from core.workers import DuplicateScanWorker, ImportWorker, ScanWorker
-
-from PySide6.QtCore import Qt, QThread, QUrl
-from PySide6.QtGui import QAction, QDesktopServices, QFont, QPainter, QColor, QIcon, QPixmap
-from PySide6.QtSvgWidgets import QSvgWidget
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QDialog,
-    QDialogButtonBox,
-    QFileDialog,
-    QGridLayout,
-    QHBoxLayout,
-    QHeaderView,
-    QLabel,
-    QLineEdit,
-    QMainWindow,
-    QMessageBox,
-    QPushButton,
-    QPlainTextEdit,
-    QProgressBar,
-    QTableWidget,
-    QTableWidgetItem,
-    QToolButton,
-    QVBoxLayout,
-    QWidget,
-    QStackedWidget,
-    QFrame,
-    QSizePolicy,
-    QSplitter,
-)
 
 
 def resource_base_path() -> Path:
@@ -95,7 +96,9 @@ APP_HEADER_LOGO_PATH = first_existing_resource_path(
     "assets/pq_logo_smiling.png",
     "pq_logo_smiling.png",
 )
-EXIFTOOL_PATH = str(RESOURCE_BASE_PATH / "exiftool") if (RESOURCE_BASE_PATH / "exiftool").exists() else shutil.which("exiftool")
+EXIFTOOL_PATH = (
+    str(RESOURCE_BASE_PATH / "exiftool") if (RESOURCE_BASE_PATH / "exiftool").exists() else shutil.which("exiftool")
+)
 
 
 class ToggleSwitch(QCheckBox):
@@ -133,7 +136,9 @@ class ToggleSwitch(QCheckBox):
         painter.drawRoundedRect(track_rect, 11, 11)
 
         thumb_d = 16
-        thumb_x = track_rect.x() + track_rect.width() - thumb_d - margin if self.isChecked() else track_rect.x() + margin
+        thumb_x = (
+            track_rect.x() + track_rect.width() - thumb_d - margin if self.isChecked() else track_rect.x() + margin
+        )
         thumb_y = track_rect.y() + (track_h - thumb_d) // 2
         painter.setPen(Qt.NoPen)
         painter.setBrush(thumb_color)
@@ -170,7 +175,7 @@ def search_photos_for_filename(filename: str) -> tuple[bool, str]:
             "-e",
             "delay 0.1",
             "-e",
-            'key code 51',
+            "key code 51",
             "-e",
             "delay 0.1",
             "-e",
@@ -599,13 +604,17 @@ class MainWindow(QMainWindow):
 
     def set_busy(self, busy: bool) -> None:
         self.scan_button.setEnabled(not busy)
-        self.import_button.setEnabled((not busy) and any(not candidate.already_in_photos for candidate in self.candidates))
+        self.import_button.setEnabled(
+            (not busy) and any(not candidate.already_in_photos for candidate in self.candidates)
+        )
         self.browse_button.setEnabled(not busy)
         self.recursive_checkbox.setEnabled(not busy)
         self.include_raw_checkbox.setEnabled(not busy)
         self.album_edit.setEnabled(not busy)
         self.dupe_scan_button.setEnabled(not busy)
-        self.dupe_delete_button.setEnabled((not busy) and bool(self.dupe_table.selectionModel() and self.dupe_table.selectionModel().selectedRows()))
+        self.dupe_delete_button.setEnabled(
+            (not busy) and bool(self.dupe_table.selectionModel() and self.dupe_table.selectionModel().selectedRows())
+        )
         self.dupe_album_edit.setEnabled(not busy)
         self.dupe_strict_checkbox.setEnabled(not busy)
         self.sync_tab_button.setEnabled(not busy)
@@ -613,7 +622,9 @@ class MainWindow(QMainWindow):
 
     def update_dupe_delete_enabled(self) -> None:
         busy = any(thread is not None for thread in (self.scan_thread, self.import_thread, self.dupe_thread))
-        self.dupe_delete_button.setEnabled((not busy) and bool(self.dupe_table.selectionModel() and self.dupe_table.selectionModel().selectedRows()))
+        self.dupe_delete_button.setEnabled(
+            (not busy) and bool(self.dupe_table.selectionModel() and self.dupe_table.selectionModel().selectedRows())
+        )
 
     def show_photos_access_dialog(self, message: str) -> None:
         dialog = QMessageBox(self)
@@ -672,7 +683,9 @@ class MainWindow(QMainWindow):
         self.set_busy(True)
 
         self.scan_thread = QThread(self)
-        self.scan_worker = ScanWorker(str(folder), self.recursive_checkbox.isChecked(), self.photos_bridge, EXIFTOOL_PATH)
+        self.scan_worker = ScanWorker(
+            str(folder), self.recursive_checkbox.isChecked(), self.photos_bridge, EXIFTOOL_PATH
+        )
         self.scan_worker.moveToThread(self.scan_thread)
         self.scan_thread.started.connect(self.scan_worker.run)
         self.scan_worker.progress.connect(self.update_progress)
@@ -685,7 +698,9 @@ class MainWindow(QMainWindow):
         self.persist_state()
         self.dupe_table.setRowCount(0)
         self.duplicate_groups = []
-        scope_suffix = f" in album '{self.dupe_album_edit.text().strip()}'" if self.dupe_album_edit.text().strip() else ""
+        scope_suffix = (
+            f" in album '{self.dupe_album_edit.text().strip()}'" if self.dupe_album_edit.text().strip() else ""
+        )
         mode_suffix = " using exact mode" if self.dupe_strict_checkbox.isChecked() else ""
         self.dupe_summary_label.setText(f"Preparing duplicate scan{scope_suffix}{mode_suffix}...")
         self.dupe_progress_bar.setRange(0, 0)
@@ -748,9 +763,15 @@ class MainWindow(QMainWindow):
             return
 
         self.duplicate_groups = duplicates
-        scope_suffix = f" in album '{self.dupe_album_edit.text().strip()}'" if self.dupe_album_edit.text().strip() else " in Photos"
+        scope_suffix = (
+            f" in album '{self.dupe_album_edit.text().strip()}'"
+            if self.dupe_album_edit.text().strip()
+            else " in Photos"
+        )
         mode_suffix = " with exact mode" if self.dupe_strict_checkbox.isChecked() else ""
-        self.dupe_summary_label.setText(f"Found {len(duplicates)} possible duplicate group(s){scope_suffix}{mode_suffix}.")
+        self.dupe_summary_label.setText(
+            f"Found {len(duplicates)} possible duplicate group(s){scope_suffix}{mode_suffix}."
+        )
         self.populate_dupe_table()
         self.set_busy(False)
 
@@ -817,7 +838,9 @@ class MainWindow(QMainWindow):
             groups_count += 1
 
         if not identifiers_to_delete:
-            QMessageBox.information(self, "Nothing to delete", "The selected groups do not contain deletable duplicates.")
+            QMessageBox.information(
+                self, "Nothing to delete", "The selected groups do not contain deletable duplicates."
+            )
             return
 
         answer = QMessageBox.question(
@@ -894,7 +917,9 @@ class MainWindow(QMainWindow):
             self.set_busy(False)
             return
 
-        album_suffix = f" and added to album '{self.album_edit.text().strip()}'" if self.album_edit.text().strip() else ""
+        album_suffix = (
+            f" and added to album '{self.album_edit.text().strip()}'" if self.album_edit.text().strip() else ""
+        )
         self.summary_label.setText(f"Imported {imported} photo(s) into Photos{album_suffix}.")
         self.append_log(self.summary_label.text())
         for error in errors:

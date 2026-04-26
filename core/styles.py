@@ -32,12 +32,12 @@ def build_stylesheet(palette: dict[str, str]) -> str:
     p = palette
     fs = f"{APP_FONT_PT}pt"
     return f"""
-        QWidget {{ font-size: {fs}; color: {p['text']}; }}
-        QMainWindow {{ background-color: {p['bg']}; }}
-        QLabel {{ color: {p['text']}; }}
-        QLabel#SummaryLabel {{ color: {p['muted']}; font-weight: 500; }}
+        QWidget {{ font-size: {fs}; color: {p["text"]}; }}
+        QMainWindow {{ background-color: {p["bg"]}; }}
+        QLabel {{ color: {p["text"]}; }}
+        QLabel#SummaryLabel {{ color: {p["muted"]}; font-weight: 500; }}
         QLabel#SectionLabel {{
-            color: {p['muted']};
+            color: {p["muted"]};
             font-size: 11pt;
             font-weight: 600;
         }}
@@ -50,73 +50,73 @@ def build_stylesheet(palette: dict[str, str]) -> str:
             border: none;
         }}
         QLineEdit {{
-            background-color: {p['surface_alt']};
-            border: 1px solid {p['border']};
+            background-color: {p["surface_alt"]};
+            border: 1px solid {p["border"]};
             padding: 9px 12px;
             border-radius: 10px;
         }}
         QLineEdit:focus {{
-            border-color: {p['accent_hover']};
-            background-color: {p['surface']};
+            border-color: {p["accent_hover"]};
+            background-color: {p["surface"]};
         }}
         QCheckBox {{
             spacing: 10px;
             padding: 2px 0px;
         }}
         QPushButton#Primary {{
-            background-color: {p['accent']};
-            color: {p['accent_text']};
-            border: 1px solid {p['accent_hover']};
+            background-color: {p["accent"]};
+            color: {p["accent_text"]};
+            border: 1px solid {p["accent_hover"]};
             padding: 0px 20px;
             border-radius: 11px;
             font-weight: 600;
         }}
-        QPushButton#Primary:hover {{ background-color: {p['accent_hover']}; }}
-        QPushButton#Primary:pressed {{ background-color: {p['accent_pressed']}; }}
+        QPushButton#Primary:hover {{ background-color: {p["accent_hover"]}; }}
+        QPushButton#Primary:pressed {{ background-color: {p["accent_pressed"]}; }}
         QPushButton#Primary:disabled {{ background-color: #d8eeea; color: #7a8f8b; border-color: #d1e7e2; }}
         QPushButton#Secondary {{
-            background-color: {p['btn_neutral']};
-            color: {p['text']};
-            border: 1px solid {p['border']};
+            background-color: {p["btn_neutral"]};
+            color: {p["text"]};
+            border: 1px solid {p["border"]};
             padding: 0px 20px;
             border-radius: 11px;
             font-weight: 500;
         }}
-        QPushButton#Secondary:hover {{ background-color: {p['btn_neutral_hover']}; }}
-        QPushButton#Secondary:pressed {{ background-color: {p['btn_neutral_pressed']}; }}
+        QPushButton#Secondary:hover {{ background-color: {p["btn_neutral_hover"]}; }}
+        QPushButton#Secondary:pressed {{ background-color: {p["btn_neutral_pressed"]}; }}
         QPushButton#Secondary:disabled {{ background-color: #f2f3f5; color: #a2a8b0; border-color: #dde1e6; }}
         QProgressBar {{
             background-color: rgba(255, 255, 255, 0.75);
-            border: 1px solid {p['separator']};
+            border: 1px solid {p["separator"]};
             border-radius: 7px;
             text-align: center;
             min-height: 18px;
         }}
         QProgressBar::chunk {{
-            background-color: {p['accent']};
+            background-color: {p["accent"]};
             border-radius: 6px;
         }}
         QTableWidget {{
-            background-color: {p['surface']};
-            border: 1px solid {p['separator']};
+            background-color: {p["surface"]};
+            border: 1px solid {p["separator"]};
             border-radius: 12px;
-            gridline-color: {p['separator']};
-            selection-background-color: {p['selection']};
-            selection-color: {p['text']};
+            gridline-color: {p["separator"]};
+            selection-background-color: {p["selection"]};
+            selection-color: {p["text"]};
             alternate-background-color: #fafbfd;
             padding: 2px;
         }}
         QHeaderView::section {{
             background-color: transparent;
-            color: {p['muted']};
+            color: {p["muted"]};
             border: none;
-            border-bottom: 1px solid {p['separator']};
+            border-bottom: 1px solid {p["separator"]};
             padding: 8px 10px;
             font-weight: 500;
         }}
         QPlainTextEdit {{
-            background-color: {p['surface']};
-            border: 1px solid {p['separator']};
+            background-color: {p["surface"]};
+            border: 1px solid {p["separator"]};
             border-radius: 14px;
             padding: 14px;
             font-family: Menlo, Monaco, "Courier New", monospace;
@@ -129,7 +129,7 @@ def build_stylesheet(palette: dict[str, str]) -> str:
         QToolButton#SegTabSync, QToolButton#SegTabDupes {{
             background-color: transparent;
             border: none;
-            color: {p['muted']};
+            color: {p["muted"]};
             font-weight: 500;
             padding: 0px 16px;
             margin: 0px;
@@ -137,14 +137,14 @@ def build_stylesheet(palette: dict[str, str]) -> str:
             max-height: 26px;
         }}
         QToolButton#SegTabSync:checked, QToolButton#SegTabDupes:checked {{
-            background-color: {p['surface']};
-            color: {p['text']};
+            background-color: {p["surface"]};
+            color: {p["text"]};
             font-weight: 600;
             border-radius: 13px;
             border: none;
         }}
         QToolButton#SegTabSync:hover:!checked, QToolButton#SegTabDupes:hover:!checked {{
-            color: {p['text']};
+            color: {p["text"]};
         }}
         QSplitter::handle {{
             background-color: transparent;
@@ -156,6 +156,6 @@ def build_stylesheet(palette: dict[str, str]) -> str:
             height: 10px;
         }}
         QMessageBox {{
-            background-color: {p['bg']};
+            background-color: {p["bg"]};
         }}
     """

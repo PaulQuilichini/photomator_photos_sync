@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from pathlib import Path
 import threading
+from pathlib import Path
 
 import objc
 
 from core.models import Candidate
 from core.scan_logic import VIDEO_EXTENSIONS, normalize_nsdate
-
 
 objc.loadBundle("Photos", globals(), bundle_path="/System/Library/Frameworks/Photos.framework")
 objc.registerMetaDataForSelector(
