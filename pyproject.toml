@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "photomator-flag-sync"
 version = "0.1.0"
@@ -16,6 +20,9 @@ dev = [
     "pre-commit",
     "ruff",
 ]
+
+[tool.setuptools]
+packages = ["core"]
 
 [tool.ruff]
 line-length = 120
