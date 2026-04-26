@@ -2,8 +2,6 @@
 
 A macOS desktop utility (PySide6) that imports flagged media into Apple Photos.
 
-Status: final version for now.
-
 ## Download and Use (Recommended)
 
 Use the installer:
@@ -14,38 +12,27 @@ Use the installer:
 4. Drag `PhotomatorFlagSync.app` into `Applications`.
 5. Open `Applications` and double-click `PhotomatorFlagSync`.
 
-If macOS warns about opening an app from the internet:
+If blocked by macOS, right-click the app, choose `Open`, then confirm.
 
-- Right-click the app, choose `Open`, then confirm.
-
-## Quick Start from Source (Developers)
-
-If you want to run from source, follow these steps:
+## Quick Start from Source
 
 1. Open the `Terminal` app on your Mac.
 2. Go to this project folder.
-   - Tip: type `cd ` (with a space), then drag the folder into Terminal, then press Enter.
+   - Type `cd `, drag the folder into Terminal, press Enter.
 3. Run:
 
 ```bash
 ./scripts/run-app.sh
 ```
 
-If that says “permission denied”, run this once and try again:
+If you see “permission denied”, run:
 
 ```bash
 chmod +x scripts/run-app.sh
 ./scripts/run-app.sh
 ```
 
-### First Run Prompts
-
-When the app opens the first time, macOS may ask for permissions:
-
-- **Photos**: allow this, so the app can check/import photos.
-- **Accessibility** (only if you use “open in Photos” actions): allow this for your Terminal/Python process.
-
-### If You Want a Normal App Icon (.app)
+### Build App Bundle (.app)
 
 Run:
 
@@ -53,7 +40,7 @@ Run:
 ./scripts/build-app.sh
 ```
 
-Then open:
+Open:
 
 - `dist/PhotomatorFlagSync.app`
 
@@ -67,12 +54,12 @@ Run:
 
 Output:
 
-- preferred: `dist/PhotomatorFlagSync-installer.dmg`
-- fallback: `dist/PhotomatorFlagSync-installer.zip`
+- `dist/PhotomatorFlagSync-installer.dmg` (preferred)
+- `dist/PhotomatorFlagSync-installer.zip` (fallback)
 
 ### Optional: Simple Commands via Make
 
-If you have `make` available, you can use:
+With `make`:
 
 ```bash
 make run
@@ -80,16 +67,6 @@ make build
 make installer
 make check
 ```
-
-## App Preview
-
-You can add a screenshot of the current UI at:
-
-- `docs/screenshots/main-window.png`
-
-Then uncomment this line in the README:
-
-<!-- ![PhotomatorFlagSync main window](docs/screenshots/main-window.png) -->
 
 ## What It Does
 
@@ -104,21 +81,19 @@ Then uncomment this line in the README:
 
 - macOS
 - Python `3.11+`
-- `exiftool` available at `/usr/local/bin/exiftool` (for packaged app and embedded metadata reads)
+- `exiftool` at `/usr/local/bin/exiftool`
 
-## Setup
-
-From the project root:
+## Manual Setup
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install --upgrade pip
-# Optional: pre-install dependencies up front (the app can also auto-install missing ones on launch)
+# Optional: pre-install runtime dependencies
 python3 -m pip install Pillow PySide6 pyobjc-core pyobjc-framework-Cocoa pyobjc-framework-Photos
 ```
 
-## Run
+## Manual Run
 
 ```bash
 source .venv/bin/activate
@@ -131,23 +106,14 @@ or
 ./scripts/run-app.sh
 ```
 
-Expected behavior on first launch:
-
-- macOS asks for Photos permission.
-- The app window opens with `Sync` and `DupeFind` workflows.
-- If runtime packages are missing when running from source, the app attempts to auto-install them with `pip`.
-
 ## Permissions (First Run)
 
 macOS may prompt for permissions the first time you use features that touch Photos or control the Photos app.
 
-- **Photos access**: required to read your library for duplicate checks and existing-item detection, and to import flagged files into Photos.
-- **Automation/Accessibility (System Events)**: required when using "open in Photos" actions from duplicate results, so the app can bring Photos to the matching item.
+- **Photos access**: required for duplicate checks, existing-item detection, and imports.
+- **Automation/Accessibility (System Events)**: required for "open in Photos" actions.
 
-If you denied a prompt and need to re-enable it:
-
-- Open **System Settings > Privacy & Security > Photos** and allow this app.
-- Open **System Settings > Privacy & Security > Accessibility** and allow your Python interpreter (or packaged app).
+If needed, re-enable in **System Settings > Privacy & Security** for **Photos** and **Accessibility**.
 
 ## Error Reporting
 
@@ -155,38 +121,9 @@ If you denied a prompt and need to re-enable it:
 - Unexpected exceptions also write a traceback report to:
   - `~/Library/Application Support/PhotomatorFlagSync/error_reports.log`
 
-## Build (PyInstaller)
-
-```bash
-source .venv/bin/activate
-python3 -m pip install pyinstaller
-pyinstaller packaging/PhotomatorFlagSync.spec
-```
-
-or
-
-```bash
-./scripts/build-app.sh
-```
-
-Expected output:
-
-- `dist/PhotomatorFlagSync.app`
-
-## Installer
-
-```bash
-./scripts/build-installer.sh
-```
-
-Output:
-
-- Preferred: `dist/PhotomatorFlagSync-installer.dmg` (if `create-dmg` is installed)
-- Fallback: `dist/PhotomatorFlagSync-installer.zip`
-
 ## Quality Guardrails
 
-Install and enable local checks:
+Install checks:
 
 ```bash
 source .venv/bin/activate
@@ -194,7 +131,7 @@ python3 -m pip install -e ".[dev]"
 pre-commit install
 ```
 
-Run checks manually:
+Run checks:
 
 ```bash
 source .venv/bin/activate
@@ -214,11 +151,6 @@ CI:
 - Sidecar detection targets `.xmp` files named either `photo.ext.xmp` or `photo.xmp`.
 - Flag detection can come from `.xmp` sidecars or embedded image metadata (including JPEG metadata).
 
-## Cleanup Safety
-
-- Before refactors, run and fill out `docs/behavior-baseline.md`.
-- Re-run the same checklist after each cleanup step to confirm no behavior drift.
-
 ## Project Layout
 
 - `app.py`: minimal launcher and dependency bootstrap.
@@ -231,4 +163,4 @@ CI:
 
 ## Release
 
-- See `docs/release-checklist.md` for a simple pre-release checklist.
+- `docs/release-checklist.md`
