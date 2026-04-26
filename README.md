@@ -2,6 +2,8 @@
 
 A macOS desktop utility (PySide6) that imports flagged media into Apple Photos.
 
+Status: final version for now.
+
 ## Quick Start
 
 If you just want to run the app, follow these steps exactly.
