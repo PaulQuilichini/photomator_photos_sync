@@ -4,9 +4,23 @@ A macOS desktop utility (PySide6) that imports flagged media into Apple Photos.
 
 Status: final version for now.
 
-## Quick Start
+## Download and Use (Recommended)
 
-If you just want to run the app, follow these steps exactly.
+Use the installer:
+
+1. Go to the [latest release](https://github.com/PaulQuilichini/photomator_photos_sync/releases/latest).
+2. Download `PhotomatorFlagSync-installer.dmg`.
+3. Open the `.dmg` file.
+4. Drag `PhotomatorFlagSync.app` into `Applications`.
+5. Open `Applications` and double-click `PhotomatorFlagSync`.
+
+If macOS warns about opening an app from the internet:
+
+- Right-click the app, choose `Open`, then confirm.
+
+## Quick Start from Source (Developers)
+
+If you want to run from source, follow these steps:
 
 1. Open the `Terminal` app on your Mac.
 2. Go to this project folder.
@@ -43,7 +57,7 @@ Then open:
 
 - `dist/PhotomatorFlagSync.app`
 
-### If You Want an Installer File to Share
+### Build an Installer File to Share
 
 Run:
 
@@ -51,7 +65,7 @@ Run:
 ./scripts/build-installer.sh
 ```
 
-You will get:
+Output:
 
 - preferred: `dist/PhotomatorFlagSync-installer.dmg`
 - fallback: `dist/PhotomatorFlagSync-installer.zip`

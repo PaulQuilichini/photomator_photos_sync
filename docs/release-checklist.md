@@ -34,3 +34,10 @@ Use this checklist before publishing a new version of `PhotomatorFlagSync`.
 
 - Tag release (example): `v1.0.0`
 - Attach installer artifact from `dist/`
+
+## 7) Publish Usability Check
+
+- Create a GitHub Release and attach `dist/PhotomatorFlagSync-installer.dmg`
+- Give the release notes a plain-language first line: "Download the `.dmg`, drag app to Applications, then open it."
+- Verify the `README.md` top section still starts with the release download flow
+- Open the release page in a private/incognito window and confirm the installer is visible without signing in
