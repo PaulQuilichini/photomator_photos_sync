@@ -6,3 +6,4 @@ __pycache__/
 build/
 dist/
 app_state.json
+sync-github.command
